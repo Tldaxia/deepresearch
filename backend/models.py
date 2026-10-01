@@ -17,6 +17,7 @@ class ResearchRequest(BaseModel):
 class TodoItem(BaseModel):
     id: str
     title: str
+    query: str
     status: str
     summary: str = ""
 
