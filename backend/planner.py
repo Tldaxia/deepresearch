@@ -9,6 +9,9 @@ from config import load_llm_config
 
 from models import TodoItem  # 导入数据模型类，用于表示研究子任务。
 
+# 限制单次研究最多执行的子任务数量，避免搜索和模型调用过多。
+MAX_TASKS = 5
+
 # 输入研究主题，调用千问生成规划文本，并返回模型原始回答。
 def generate_plan_text(topic: str) -> str:
     """调用千问生成研究规划，并返回它输出的原始文本。"""
@@ -67,7 +70,7 @@ def parse_plan_text(plan_text: str) -> list[dict[str, str]]:
 
     todo_items = []
 
-    for index, task in enumerate(tasks, start=1):
+    for index, task in enumerate(tasks[:MAX_TASKS], start=1):
         # 忽略不是 json 对象的任务项。
         if not isinstance(task, dict):
             continue

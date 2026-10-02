@@ -13,6 +13,12 @@ class ResearchRequest(BaseModel):
             raise ValueError('研究主题不能为空')
         return value
 
+# 表示一条网页搜索来源，包含标题、链接和搜索摘要。每个类的关系也要有讲究。
+class ResearchSource(BaseModel):
+    title: str
+    url: str
+    snippet: str
+
 # 表示研究计划中的一个子任务；后端会用它描述任务标题、状态和摘要。
 class TodoItem(BaseModel):
     id: str
@@ -20,8 +26,10 @@ class TodoItem(BaseModel):
     query: str
     status: str
     summary: str = ""
+    sources: list[ResearchSource] = Field(default_factory=list)
 
 # 表示后端返回给前端的研究结果，包含 Markdown 报告和子任务列表。
 class ResearchResponse(BaseModel):
     report_markdown: str
     todo_items: list[TodoItem] = Field(default_factory=list)
+
